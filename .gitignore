@@ -34,3 +34,6 @@ tf_models/
 build/
 dist/
 *.egg-info/
+
+# Custom configuration
+try.ipynb
