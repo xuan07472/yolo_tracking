@@ -37,3 +37,4 @@ dist/
 
 # Custom configuration
 try.ipynb
+*_c.ipynb
