@@ -2,8 +2,8 @@
 
 import numpy as np
 
-# from boxmot.motion.kalman_filters.bytetrack_kf_nas import KalmanFilter # nas改进
-from boxmot.motion.kalman_filters.botsort_kf_nas import KalmanFilter # xywh改进+nas改进
+# from boxmot.motion.kalman_filters.bytetrack_kf import KalmanFilter # 原版
+from boxmot.motion.kalman_filters.botsort_kf import KalmanFilter # xywh改进
 from boxmot.trackers.bytetrack.basetrack import BaseTrack, TrackState
 from boxmot.utils.matching import fuse_score, iou_distance, linear_assignment
 from boxmot.utils.ops import tlwh2xyah, xywh2tlwh, xywh2xyxy, xyxy2xywh
@@ -64,7 +64,7 @@ class STrack(BaseTrack):
 
     def re_activate(self, new_track, frame_id, new_id=False):
         self.mean, self.covariance = self.kalman_filter.update(
-            self.mean, self.covariance, new_track.xyah, self.score
+            self.mean, self.covariance, new_track.xyah
         )
         self.tracklet_len = 0
         self.state = TrackState.Tracked
@@ -89,7 +89,7 @@ class STrack(BaseTrack):
         # self.cls = cls
 
         self.mean, self.covariance = self.kalman_filter.update(
-            self.mean, self.covariance, new_track.xyah, self.score
+            self.mean, self.covariance, new_track.xyah
         )
         self.state = TrackState.Tracked
         self.is_activated = True
