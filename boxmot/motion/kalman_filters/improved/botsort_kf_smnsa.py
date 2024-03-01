@@ -146,10 +146,19 @@ class KalmanFilter(object):
             self._std_weight_position * mean[2],
             self._std_weight_position * mean[3]]
         
-        # std = [(1 - confidence) * x for x in std] # NAS卡尔曼滤波，自适应噪声协方差
-        sigma = 1 # 高斯半径/标准差
-        std = [((1 / (((2 * math.pi) ** 0.5) * sigma )) * math.e ** (
-                    -(1-confidence) ** 2 / (2 * sigma ** 2)))*x for x in std] # 平滑自适应观测噪声矩阵
+        # alpha = 1
+        # std = [(alpha*(1 - confidence)) * x for x in std] # NAS卡尔曼滤波，自适应噪声协方差
+        
+        alpha = 0.8
+        std = [(alpha*(1 - alpha*confidence)) * x for x in std] # NAS卡尔曼滤波，自适应噪声协方差
+        
+        # std = [(np.tanh(1 - confidence)) * x for x in std] # tanh
+        # std = [(1 / (1 + np.exp(-(1-confidence)))) * x for x in std] # sigmoid
+        
+        # sigma = 0.4 # 高斯半径/标准差
+        # std = [((1 / (((2 * math.pi) ** 0.5) * sigma )) * math.e ** (
+        #             -(confidence) ** 2 / (2)))*x for x in std] # 平滑自适应观测噪声矩阵
+        
         innovation_cov = np.diag(np.square(std))
 
         mean = np.dot(self._update_mat, mean)
