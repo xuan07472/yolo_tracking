@@ -2,8 +2,8 @@
 
 import numpy as np
 
-# from boxmot.motion.kalman_filters.bytetrack_kf import KalmanFilter # 原版
-from boxmot.motion.kalman_filters.botsort_kf import KalmanFilter # xywh改进
+# from boxmot.motion.kalman_filters.bytetrack_kf import KalmanFilter
+from boxmot.motion.kalman_filters.bytetrackst_kf import KalmanFilter
 from boxmot.trackers.bytetrack.basetrack import BaseTrack, TrackState
 from boxmot.utils.matching import fuse_score, iou_distance, linear_assignment
 from boxmot.utils.ops import tlwh2xyah, xywh2tlwh, xywh2xyxy, xyxy2xywh
